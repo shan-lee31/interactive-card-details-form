@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [isSuccess, setIsSuccess] = useState(false)
+
   const [error, setError] = useState({
     card_number: "",
     name: "",
@@ -89,53 +90,105 @@ export default function Home() {
 
       setFormData((prev) => ({ ...prev, [name]: formatCardNumber(value) }));
     }
+    else if (name === "cvc") {
+
+      if (!/^\d{3}$/.test(value)) {
+        setError((prev) => ({ ...prev, cvc: "Wrong format, numbers only" }));
+      }
+      else {
+        setError((prev) => ({ ...prev, cvc: "" }))
+      }
+      value = value.replace(/\D/g, "")
+
+      if (value.length > 3) {
+        value = value.slice(0, 3);
+      }
+
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
     else {
+      setError((prev) => ({ ...prev, [name]: "" }))
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
 
 
   }
 
+  const handleContinue = () => {
+    router.push('/')
+  }
 
   return (
-    <div className="grid grid-cols-5 h-screen">
-      <div className="col-span-1">
+    <div className="grid lg:grid-cols-5 md:grid-cols-auto h-screen">
+      <div className="hidden lg:block col-span-1">
         <Image alt="bg" src="/assets/bg-main-desktop.png" width={483} height={0} className="absolute w-[483px] object-cover"></Image>
       </div>
-      <div className="absolute top-50 left-50 justify-center place-items-center">
-        <Image alt="bg" src="/assets/bg-card-front.png" width={0} height={0} className="w-[400px] h-[245px] shadow-md rounded-xl"></Image>
+      {/* mobile background */}
+      <div className="flex flex-row lg:hidden">
+        <Image alt="bg" src="/assets/bg-main-mobile.png" width={0} height={0} className="absolute w-full sm:h-1/3 h-55 object-cover"></Image>
+      </div>
+      <div className="hidden lg:block absolute top-50 left-50 justify-center place-items-center">
+        <Image alt="front" src="/assets/bg-card-front.png" width={0} height={0} className="w-[400px] h-[245px] shadow-md rounded-xl"></Image>
         <div className="absolute top-0 left-0 w-full h-full flex flex-col text-white text-lg p-5">
           <Image alt="logo" src="/assets/card-logo.svg" width={100} height={40} className="mb-10"></Image>
-          <div className="flex">
+          <div className="flex mb-5">
             <label className="text-2xl">{formData.card_number ? formData.card_number : "0000 0000 0000 0000"}</label>
           </div>
           <div className="flex gap-2">
             <div className="w-1/2">
-              {formData.name}
+              {formData.name || "Jane Appleseed"}
             </div>
             <div className="w-1/2 justify-items-end">
-              {formData.month + "/" + formData.year}
+              {formData.month || "00" + "/" + `${formData.year ? formData.year : "00"}`}
             </div>
           </div>
 
         </div>
         <div className="relative left-0 mt-10 left-20 z-50">
-          <Image alt="bg" src="/assets/bg-card-back.png" width={0} height={0} className="w-[400px] h-[245px] shadow-md rounded-xl"></Image>
+          <Image alt="back" src="/assets/bg-card-back.png" width={0} height={0} className="w-[400px] h-[245px] shadow-md rounded-xl"></Image>
           <div className="absolute top-27 right-15 text-white text-lg">
-            <p>{formData.cvc}</p>
+            <p>{formData.cvc || "123"}</p>
           </div>
         </div>
       </div>
-      <div className="col-span-2">
+      {/* mobile card back */}
+      <div className="flex flex-col lg:hidden">
+        <div className="absolute top-2 right-2 z-1">
+          <Image alt="back" src="/assets/bg-card-back.png" width={0} height={0} className="w-full sm:h-[245px] h-[150px] shadow-md rounded-xl"></Image>
+          <div className="absolute sm:top-27 top-16 right-15 text-white sm:text-lg text-sm">
+            <p>{formData.cvc || "123"}</p>
+          </div>
+        </div>
+        <div className="absolute sm:top-50 top-30 left-2 z-20">
+          <Image alt="front" src="/assets/bg-card-front.png" width={0} height={0} className="w-full sm:h-[245px] h-[150px] shadow-md rounded-xl"></Image>
+          <div className="absolute top-0 left-0 w-full h-full flex flex-col text-white text-lg p-5 z-25">
+            <Image alt="logo" src="/assets/card-logo.svg" width={100} height={40} className="sm:mb-10 w-[45px] h-[20px]"></Image>
+            <div className="flex w-full mb-5">
+              <label className="sm:text-2xl text-sm">{formData.card_number ? formData.card_number : "0000 0000 0000 0000"}</label>
+            </div>
+            <div className="flex z-30">
+              <div className="w-1/2 sm:text-lg text-sm">
+                {formData.name || "Jane Appleseed"}
+              </div>
+              <div className="w-1/2 justify-items-end sm:text-lg text-sm">
+                {formData.month || "00" + "/" + `${formData.year ? formData.year : "00"}`}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div className="hidden lg:block col-span-2">
 
       </div>
 
-      <div className="flex flex-col justify-center items-center col-span-2 w-4/5">
+      <div className="hidden lg:flex flex-col justify-center items-center col-span-2 w-4/5">
         {isSuccess ?
-          <div>
-            <h1 className="text-2xl font-bold">Thank you!</h1>
-            <p>We've added your card details.</p>
-            <form>
+          <div className="text-center space-y-8">
+            <Image src="/assets/icon-complete.svg" alt="success" width={0} height={0} className="w-[100px] h-[100px] mx-auto"></Image>
+            <h1 className="text-2xl font-bold">THANK YOU!</h1>
+            <p className="text-secondary">We've added your card details.</p>
+            <form onSubmit={handleContinue}>
               <button type="submit" className="w-full bg-foreground text-white p-3 rounded-md">Continue</button>
             </form>
           </div>
