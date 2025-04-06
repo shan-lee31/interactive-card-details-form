@@ -20,10 +20,10 @@ The purpose of this project is to **improve my Tailwind CSS skills** and gain a 
 
 ## 📸 Screenshots
 
-![Preview](./assets/1_desktop.png)
-![Preview](./assets/2Success_desktop.png)
-![Preview](./assets/1_mobile.png)
-![Preview](./assets/2Success_mobile.png)
+![App Preview](./public/assets/1_desktop.png)
+![App Preview](./public/assets/2Success_desktop.png)
+![App Preview](./public/assets/1_mobile.png)
+![App Preview](./public/assets/2Success_mobile.png)
 
 ## 📁 Project Setup
 
