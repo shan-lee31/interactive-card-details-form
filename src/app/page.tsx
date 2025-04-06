@@ -75,8 +75,8 @@ export default function Home() {
 
     // Validation
     if (name === "card_number") {
-
-      if (/\D/.test(value)) {
+      const rawValue = value.replace(/\s/g, '')
+      if (/\D/.test(rawValue)) {
         setError((prev) => ({ ...prev, card_number: "Wrong format, numbers only" }));
       }
       else {
@@ -125,7 +125,7 @@ export default function Home() {
       </div>
       {/* mobile background */}
       <div className="flex flex-row lg:hidden">
-        <Image alt="bg" src="/assets/bg-main-mobile.png" width={0} height={0} className="absolute w-full sm:h-1/3 h-55 object-cover"></Image>
+        <Image alt="bg" src="/assets/bg-main-mobile.png" width={0} height={0} className="absolute w-full h-55 object-cover"></Image>
       </div>
       <div className="hidden lg:block absolute top-50 left-50 justify-center place-items-center">
         <Image alt="front" src="/assets/bg-card-front.png" width={0} height={0} className="w-[400px] h-[245px] shadow-md rounded-xl"></Image>
@@ -139,7 +139,7 @@ export default function Home() {
               {formData.name || "Jane Appleseed"}
             </div>
             <div className="w-1/2 justify-items-end">
-              {formData.month || "00" + "/" + `${formData.year ? formData.year : "00"}`}
+              {`${formData.month || "00"}/${formData.year || "00"}`}
             </div>
           </div>
 
@@ -153,39 +153,39 @@ export default function Home() {
       </div>
       {/* mobile card back */}
       <div className="flex flex-col lg:hidden">
-        <div className="absolute top-2 right-2 z-1">
-          <Image alt="back" src="/assets/bg-card-back.png" width={0} height={0} className="w-full sm:h-[245px] h-[150px] shadow-md rounded-xl"></Image>
-          <div className="absolute sm:top-27 top-16 right-15 text-white sm:text-lg text-sm">
+        <div className="absolute top-2 md:right-40 right-10 z-1">
+          <Image alt="back" src="/assets/bg-card-back.png" width={0} height={0} className="w-full lg:h-[245px] h-[150px] shadow-md rounded-xl"></Image>
+          <div className="absolute lg:top-27 top-16 right-15 text-white lg:text-lg text-sm">
             <p>{formData.cvc || "123"}</p>
           </div>
         </div>
-        <div className="absolute sm:top-50 top-30 left-2 z-20">
-          <Image alt="front" src="/assets/bg-card-front.png" width={0} height={0} className="w-full sm:h-[245px] h-[150px] shadow-md rounded-xl"></Image>
+        <div className="absolute top-30 md:left-40 left-10  z-20">
+          <Image alt="front" src="/assets/bg-card-front.png" width={0} height={0} className="w-full lg:h-[245px] h-[150px] shadow-md rounded-xl"></Image>
           <div className="absolute top-0 left-0 w-full h-full flex flex-col text-white text-lg p-5 z-25">
-            <Image alt="logo" src="/assets/card-logo.svg" width={100} height={40} className="sm:mb-10 w-[45px] h-[20px]"></Image>
+            <Image alt="logo" src="/assets/card-logo.svg" width={100} height={40} className="lg:mb-10 w-[45px] h-[20px]"></Image>
             <div className="flex w-full mb-5">
-              <label className="sm:text-2xl text-sm">{formData.card_number ? formData.card_number : "0000 0000 0000 0000"}</label>
+              <label className="lg:text-2xl text-sm">{formData.card_number ? formData.card_number : "0000 0000 0000 0000"}</label>
             </div>
             <div className="flex z-30">
-              <div className="w-1/2 sm:text-lg text-sm">
+              <div className="w-1/2 lg:text-lg text-sm">
                 {formData.name || "Jane Appleseed"}
               </div>
-              <div className="w-1/2 justify-items-end sm:text-lg text-sm">
-                {formData.month || "00" + "/" + `${formData.year ? formData.year : "00"}`}
+              <div className="w-1/2 justify-items-end lg:text-lg text-sm">
+              {`${formData.month || "00"}/${formData.year || "00"}`}
               </div>
             </div>
 
           </div>
         </div>
       </div>
-      <div className="hidden lg:block col-span-2">
+      <div className="lg:block lg:col-span-2 md:grid-auto-rows">
 
       </div>
 
-      <div className="hidden lg:flex flex-col justify-center items-center col-span-2 w-4/5">
+      <div className="lg:flex flex-col justify-center items-center lg:col-span-2 sm:flex-flow-cols lg:w-4/5 p-10 md:mx-auto">
         {isSuccess ?
           <div className="text-center space-y-8">
-            <Image src="/assets/icon-complete.svg" alt="success" width={0} height={0} className="w-[100px] h-[100px] mx-auto"></Image>
+            <Image src="/assets/icon-complete.svg" alt="success" width={0} height={0} className="md:w-[100px] md:h-[100px] w-[60px] h-[60px] mx-auto"></Image>
             <h1 className="text-2xl font-bold">THANK YOU!</h1>
             <p className="text-secondary">We've added your card details.</p>
             <form onSubmit={handleContinue}>
@@ -194,18 +194,18 @@ export default function Home() {
           </div>
           :
           <>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <label>CARDHOLDER NAME</label>
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-2">
+              <label className="lg:text-lg text-sm">CARDHOLDER NAME</label>
               <input
                 type="text"
                 name="name"
                 placeholder="e.g. Jane Appleseed"
                 value={formData.name}
                 onChange={handleChange}
-                className={`border p-2 w-full rounded-md ${error.name ? "border-red-500" : ""} `}
+                className={`border p-2 w-full rounded-md  lg:text-lg text-sm ${error.name ? "border-red-500" : ""} `}
               />
-              {error.name && <p className="text-red-500 text-sm">{error.name}</p>}
-              <label>CARD NUMBER</label>
+              {error.name && <p className="text-red-500 lg:text-lg text-sm">{error.name}</p>}
+              <label className="lg:text-lg text-sm">CARD NUMBER</label>
               <input
                 type="text"
                 name="card_number"
@@ -213,13 +213,13 @@ export default function Home() {
                 value={formData.card_number}
                 onChange={handleChange}
                 inputMode="numeric"
-                className={`border p-2 w-full rounded-md ${error.card_number ? "border-red-500" : ""} `}
+                className={`border p-2 w-full rounded-md lg:text-lg text-sm ${error.card_number ? "border-red-500" : ""} `}
               />
-              {error.card_number && <p className="text-red-500 text-sm">{error.card_number}</p>}
+              {error.card_number && <p className="text-red-500 lg:text-lg text-sm">{error.card_number}</p>}
 
-              <div className="grid grid-cols-6 grid-rows-2 gap-8">
+              <div className="grid grid-cols-6 lg:grid-rows-2 gap-8">
                 <div className="col-span-3">
-                  <label>EXP. DATE(MM/YY)</label>
+                  <label className="lg:text-lg text-sm">EXP. DATE(MM/YY)</label>
 
                   <div className="flex gap-2">
                     <input
@@ -228,7 +228,7 @@ export default function Home() {
                       value={formData.month}
                       placeholder="MM"
                       onChange={handleChange}
-                      className={`w-1/2 h-10 border rounded-md text-center outline-none ${error.month ? "border-red-500" : ""} `}
+                      className={`w-1/2 h-10 border rounded-md text-center outline-none lg:text-lg text-sm ${error.month ? "border-red-500" : ""} `}
                       maxLength={2}
                     />
 
@@ -238,27 +238,27 @@ export default function Home() {
                       value={formData.year}
                       placeholder="YY"
                       onChange={handleChange}
-                      className={`w-1/2 h-10 border rounded-md text-center outline-none ${error.year ? "border-red-500" : ""} `}
+                      className={`w-1/2 h-10 border rounded-md text-center outline-none lg:text-lg text-sm ${error.year ? "border-red-500" : ""} `}
                       maxLength={2}
                     />
 
                   </div>
                   <div className="flex gap-2">
-                    {error.month && <p className="text-red-500 text-sm">{error.month}</p>}
-                    {error.year && <p className="text-red-500 text-sm">{error.year}</p>}
+                    {error.month && <p className="text-red-500 lg:text-lg text-sm">{error.month}</p>}
+                    {error.year && <p className="text-red-500 lg:text-lg text-sm">{error.year}</p>}
                   </div>
                 </div>
                 <div className="col-span-3">
-                  <label>CVC</label>
+                  <label className="lg:text-lg text-sm">CVC</label>
                   <input
                     type="text"
                     name="cvc"
                     placeholder="e.g. 123"
                     value={formData.cvc}
                     onChange={handleChange}
-                    className={`border p-2 rounded-md w-full h-10  ${error.cvc ? "border-red-500" : ""} `}
+                    className={`border p-2 rounded-md w-full h-10 lg:text-lg text-sm ${error.cvc ? "border-red-500" : ""} `}
                   />
-                  {error.cvc && <p className="text-red-500 text-sm">{error.cvc}</p>}
+                  {error.cvc && <p className="text-red-500 lg:text-lg text-sm">{error.cvc}</p>}
                 </div>
               </div>
               <button type="submit" className="w-full bg-foreground text-white p-3 rounded-md">
