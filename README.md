@@ -21,9 +21,17 @@ The purpose of this project is to **improve my Tailwind CSS skills** and gain a 
 ## 📸 Screenshots
 
 ![App Preview](./public/assets/1_desktop.png)
+Desktop Display
 ![App Preview](./public/assets/2Success_desktop.png)
-![App Preview](./public/assets/1_mobile.png)
-![App Preview](./public/assets/2Success_mobile.png)
+Desktop Display (Success Message)
+<figure>
+  <img src="./public/assets/1_mobile.png" alt="App Preview" width="300" />
+  <figcaption style="text-align: center;">Mobile Display</figcaption>
+</figure>
+<figure>
+  <img src="./public/assets/2Success_mobile.png" alt="App Preview" width="300" />
+  <figcaption style="text-align: center;">Mobile Display (Success Message) </figcaption>
+</figure>
 
 ## 📁 Project Setup
 
